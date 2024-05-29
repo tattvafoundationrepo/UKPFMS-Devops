@@ -1,5 +1,5 @@
 global:
-   domain: ukpfms.dev-tattvafoundation.org ## Add your Domain Name "Eg: site.mydomain.com" Do not use the dummy domain
+   domain: uk.nagalandhealthproject.org ## Add your Domain Name "Eg: site.mydomain.com" Do not use the dummy domain
    setup: fullsetup
 
 cluster-configs:
@@ -15,13 +15,13 @@ cluster-configs:
             data:
                 db-host: ukpfms-db.cvgnu83fnwgi.ap-south-1.rds.amazonaws.com:5432 ## Add db-host name eg: egov-demo.database.azure.com
                 db-name: ukpfmsdb ## Add db-name
-                db-url: jdbc:postgresql://ukpfms-db.cvgnu83fnwgi.ap-south-1.rds.amazonaws.com:5432/ukpfmsnew ## example: jdbc:postgresql://egov-demo.postgres.database.azure.com:5432/egov_demo
-                erp-db-url: jdbc:postgresql://ukpfms-db.cvgnu83fnwgi.ap-south-1.rds.amazonaws.com:5432/financenew
-                domain: ukpfms.dev-tattvafoundation.org ## Add your Domain Name    
-                egov-services-fqdn-name: https://ukpfms.dev-tattvafoundation.org/ ## Add your Domain Name
+                db-url: jdbc:postgresql://ukpfms-db.cvgnu83fnwgi.ap-south-1.rds.amazonaws.com:5432/ukpfmsdb ## example: jdbc:postgresql://egov-demo.postgres.database.azure.com:5432/egov_demo
+                erp-db-url: jdbc:postgresql://ukpfms-db.cvgnu83fnwgi.ap-south-1.rds.amazonaws.com:5432/finance
+                domain: uk.nagalandhealthproject.org ## Add your Domain Name    
+                egov-services-fqdn-name: https://uk.nagalandhealthproject.org/ ## Add your Domain Name
                 
                 egov-state-level-tenant-id: "uk" 
-                s3-assets-bucket: "(ukpfms-digit-repo)"
+                s3-assets-bucket: "(pg-egov-assets|egov-playground-assets)"
                 es-host: "elasticsearch-data-v1.es-cluster"
                 es-indexer-host: "http://elasticsearch-data-v1.es-cluster:9200/"
                 flyway-locations: "filesystem:/flyway/sql,filesystem:/flyway/seed,filesystem:/flyway/qa"
@@ -144,6 +144,7 @@ cluster-configs:
                 pgr-services: "http://pgr-services.egov:8080/"
                 birth-death-services: "http://birth-death-services.egov:8080/"
                 egov-pdf: "http://egov-pdf.egov:8080/"
+                pet-services: "http://pet-service:8080/"
 employee:
   dashboard-url: "https://dashboard-pbuat.egovernments.org/s/w---s/app/kibana#/dashboard/4e687470-f3c7-11e8-8d09-b151e2b1cf8e?embed=true&_g=(refreshInterval%3A(pause%3A!f%2Cvalue%3A300000)%2Ctime%3A(from%3Anow-15m%2Cmode%3Aquick%2Cto%3Anow))"
   custom-js-injection: |
@@ -175,6 +176,7 @@ egov-filestore:
   allowed-file-formats-map: "{jpg:{'image/jpg','image/jpeg'},jpeg:{'image/jpeg','image/jpg'},png:{'image/png'},pdf:{'application/pdf'},odt:{'application/vnd.oasis.opendocument.text'},ods:{'application/vnd.oasis.opendocument.spreadsheet'},docx:{'application/x-tika-msoffice','application/x-tika-ooxml','application/vnd.oasis.opendocument.text','application/msword'},doc:{'application/x-tika-msoffice','application/x-tika-ooxml','application/vnd.oasis.opendocument.text','application/msword'},dxf:{'text/plain','application/dxf','application/octet-stream','image/vnd.dxf','image/vnd.dxf; format=ascii','image/vnd.dxf; format=binary','image/vnd.dxb'},csv:{'text/plain'},txt:{'text/plain'},xlsx:{'application/x-tika-ooxml','application/x-tika-msoffice','application/vnd.ms-excel'},xls:{'application/x-tika-ooxml','application/x-tika-msoffice','application/vnd.ms-excel'}}"
   allowed-file-formats: "jpg,jpeg,png,doc,docx,pdf,odt,ods,text,dxf,xls,xlsx"
   filestore-url-validity: 3600
+  memory_limits: 512Mi
   fixed-bucketname: ukpfms-digit-repo  ## Add filestore bucket name
 
 egov-idgen:
@@ -262,6 +264,11 @@ egov-pg-service:
   axis: true  
   egov-pg-reconciliation-system-user-uuid: "db4fe8ed-c0e0-4c2a-829b-72296d8d156f"
 
+pet-services:
+  memory_limits: 384Mi
+
+
+
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 egov-mdms-service:
   replicas: 1
@@ -289,7 +296,7 @@ egov-persister:
   replicas: 1
   images:
     - egovio/egov-persister
-  persist-yml-path: "file:///work-dir/configs/egov-persister/pgr-services-persister.yml,file:///work-dir/configs/egov-persister/pt-mutation-calculator-persister.yml,file:///work-dir/configs/egov-persister/apportion-persister.yml,file:///work-dir/configs/egov-persister/billing-services-persist.yml,file:///work-dir/configs/egov-persister/egf-bill.yaml,file:///work-dir/configs/egov-persister/egov-user-event-persister.yml,file:///work-dir/configs/egov-persister/egov-workflow-v2-persister.yml,file:///work-dir/configs/egov-persister/firenoc_persiter.yaml,file:///work-dir/configs/egov-persister/hrms-employee-persister.yml,file:///work-dir/configs/egov-persister/pdf-generator.yml,file:///work-dir/configs/egov-persister/pg-service-persister.yml,file:///work-dir/configs/egov-persister/pgr.v3.yml,file:///work-dir/configs/egov-persister/property-services.yml,file:///work-dir/configs/egov-persister/pt-calculator-v2-persister.yml,file:///work-dir/configs/egov-persister/pt-drafts.yml,file:///work-dir/configs/egov-persister/pt-persist.yml,file:///work-dir/configs/egov-persister/tl-billing-slab-persister.yml,file:///work-dir/configs/egov-persister/tl-calculation-persister.yml,file:///work-dir/configs/egov-persister/uploader-persister.yml,file:///work-dir/configs/egov-persister/collection-migration-persister.yml,file:///work-dir/configs/egov-persister/property-services-registry.yml,file:///work-dir/configs/egov-persister/tradelicense.yml,file:///work-dir/configs/egov-persister/sewerage-persist.yml,file:///work-dir/configs/egov-persister/water-persist.yml,file:///work-dir/configs/egov-persister/water-meter.yml,file:///work-dir/configs/egov-persister/bpa-persister.yml,file:///work-dir/configs/egov-persister/assessment-persister.yml,file:///work-dir/configs/egov-persister/chatbot.yml"
+  persist-yml-path: "file:///work-dir/configs/egov-persister/pgr-services-persister.yml,file:///work-dir/configs/egov-persister/pt-mutation-calculator-persister.yml,file:///work-dir/configs/egov-persister/apportion-persister.yml,file:///work-dir/configs/egov-persister/billing-services-persist.yml,file:///work-dir/configs/egov-persister/egf-bill.yaml,file:///work-dir/configs/egov-persister/egov-user-event-persister.yml,file:///work-dir/configs/egov-persister/egov-workflow-v2-persister.yml,file:///work-dir/configs/egov-persister/firenoc_persiter.yaml,file:///work-dir/configs/egov-persister/hrms-employee-persister.yml,file:///work-dir/configs/egov-persister/pdf-generator.yml,file:///work-dir/configs/egov-persister/pg-service-persister.yml,file:///work-dir/configs/egov-persister/pgr.v3.yml,file:///work-dir/configs/egov-persister/property-services.yml,file:///work-dir/configs/egov-persister/pt-calculator-v2-persister.yml,file:///work-dir/configs/egov-persister/pt-drafts.yml,file:///work-dir/configs/egov-persister/pt-persist.yml,file:///work-dir/configs/egov-persister/tl-billing-slab-persister.yml,file:///work-dir/configs/egov-persister/tl-calculation-persister.yml,file:///work-dir/configs/egov-persister/uploader-persister.yml,file:///work-dir/configs/egov-persister/collection-migration-persister.yml,file:///work-dir/configs/egov-persister/property-services-registry.yml,file:///work-dir/configs/egov-persister/tradelicense.yml,file:///work-dir/configs/egov-persister/sewerage-persist.yml,file:///work-dir/configs/egov-persister/water-persist.yml,file:///work-dir/configs/egov-persister/water-meter.yml,file:///work-dir/configs/egov-persister/bpa-persister.yml,file:///work-dir/configs/egov-persister/assessment-persister.yml,file:///work-dir/configs/egov-persister/chatbot.yml,file:///work-dir/configs/egov-persister/pet-persister.yml"
   initContainers:
     gitSync:
       repo: "git@github.com:tattvafoundationrepo/configs"      ##### Change repo url with Your fork Repo url
@@ -392,7 +399,7 @@ nginx-ingress:
   ssl-ecdh-curve: "X25519:prime256v1:secp521r1:secp384r1"
 
 cert-manager:
-  email: "faizan@tattvafoundation.org"     ### Add email-id which used by cert-manager for certificates validation.
+  email: "devops@egovernments.org"     ### Add email-id which used by cert-manager for certificates validation.
   
   
 zuul:
@@ -414,16 +421,12 @@ collection-services:
   user-create-enabled: "true"
 
 collection-receipt-voucher-consumer:
-  jalandhar-erp-host: "https://jalandhar-qa.egovernments.org/"
-  mohali-erp-host: "https://mohali-qa.egovernments.org/"
-  nayagaon-erp-host: "https://nayagaon-qa.egovernments.org/"
-  amritsar-erp-host: "https://amritsar-qa.egovernments.org/"
-  kharar-erp-host: "https://kharar-qa.egovernments.org/"
-  zirakpur-erp-host: "https://zirakpur-qa.egovernments.org/"
+  dehradun-erp-host: "https://dehradun-uk.nagalandhealthproject.org/"
+  doiwala-erp-host: "https://doiwala-uk.nagalandhealthproject.org/"
 
 finance-collections-voucher-consumer:
-  erp-env-name: "ukpfms"
-  erp-domain-name: "dev-tattvafoundation.org"
+  erp-env-name: "uk"
+  erp-domain-name: "uk.nagalandhealthproject.org"
 
 
 user-otp:
@@ -453,104 +456,26 @@ tl-services:
   tl-license-num-format: "MP-LEP-[SEQ_EG_PT_LN]"
   tl-userevents-pay-link: "citizen/otpLogin?mobileNo=$mobile&redirectTo=egov-common/pay?consumerCode=$applicationNo&tenantId=$tenantId"
   tl-payment-topic-name: "egov.collection.payment-create"
-  host-link: "https://ukpfms.dev-tattvafoundation.org/citizen/"
-  pdf-link: "https://ukpfms.dev-tattvafoundation.org/egov-pdf/download/epass?tenantId={TENANTID}&uuid={UUID}"
+  host-link: "https://uk.nagalandhealthproject.org/citizen/"
+  pdf-link: "https://uk.nagalandhealthproject.org/egov-pdf/download/epass?tenantId={TENANTID}&uuid={UUID}"
   tl-search-default-limit: "100"
 
 egov-workflow-v2:
   logging-level: "DEBUG"
   java-args: -Dspring.profiles.active=monitoring
   workflow-statelevel: "true"
-  host-link: "https://ukpfms.dev-tattvafoundation.org/citizen/"
+  host-link: "https://uk.nagalandhealthproject.org/citizen/"
   pdf-link: "/download/epass?tenantId={TENANTID}&ids={UUID}"
 
 egov-hrms:
   java-args: -Dspring.profiles.active=monitoring
-  employee-applink: "https://ukpfms.dev-tattvafoundation.org/employee/user/login"
+  employee-applink: "https://uk.nagalandhealthproject.org/employee/user/login"
 
-# eGov-finance Tenants
+# eGov-finance Tenantsk9s
 financeTenants: |
-  tenant.dehradun.ukpfms.dev-tattvafoundation.org=dehradun
-  tenant.haldwani.ukpfms.dev-tattvafoundation.org=haldwani
-  tenant.haridwar.ukpfms.dev-tattvafoundation.org=haridwar
-  tenant.roorkee.ukpfms.dev-tattvafoundation.org=roorkee
-  tenant.rudrapur.ukpfms.dev-tattvafoundation.org=rudrapur
-  tenant.kashipur.ukpfms.dev-tattvafoundation.org=kashipur
-  tenant.rishikesh.ukpfms.dev-tattvafoundation.org=rishikesh
-  tenant.chamba.ukpfms.dev-tattvafoundation.org=chamba
-  tenant.uttarkashi.ukpfms.dev-tattvafoundation.org=uttarkashi
-  tenant.almora.ukpfms.dev-tattvafoundation.org=almora
-  tenant.jaspur.ukpfms.dev-tattvafoundation.org=jaspur
-  tenant.shaktigarh.ukpfms.dev-tattvafoundation.org=shaktigarh
-  tenant.augustmuni.ukpfms.dev-tattvafoundation.org=augustmuni
-  tenant.bageshwar.ukpfms.dev-tattvafoundation.org=bageshwar
-  tenant.banbasa.ukpfms.dev-tattvafoundation.org=banbasa
-  tenant.berinag.ukpfms.dev-tattvafoundation.org=berinag
-  tenant.bhimtal.ukpfms.dev-tattvafoundation.org=bhimtal
-  tenant.bhowali.ukpfms.dev-tattvafoundation.org=bhowali
-  tenant.chamiyala.ukpfms.dev-tattvafoundation.org=chamiyala
-  tenant.dwarahat.ukpfms.dev-tattvafoundation.org=dwarahat
-  tenant.gadarpur.ukpfms.dev-tattvafoundation.org=gadarpur
-  tenant.gairsain.ukpfms.dev-tattvafoundation.org=gairsain
-  tenant.gaja.ukpfms.dev-tattvafoundation.org=gaja
-  tenant.gauchar.ukpfms.dev-tattvafoundation.org=gauchar
-  tenant.joshimath.ukpfms.dev-tattvafoundation.org=joshimath
-  tenant.kaladhungi.ukpfms.dev-tattvafoundation.org=kaladhungi
-  tenant.karnaprayag.ukpfms.dev-tattvafoundation.org=karnaprayag
-  tenant.kedarnath.ukpfms.dev-tattvafoundation.org=kedarnath
-  tenant.lohaghat.ukpfms.dev-tattvafoundation.org=lohaghat
-  tenant.mahuwadawara.ukpfms.dev-tattvafoundation.org=mahuwadawara
-  tenant.manglaur.ukpfms.dev-tattvafoundation.org=manglaur
-  tenant.pauri.ukpfms.dev-tattvafoundation.org=pauri
-  tenant.pithoragarh.ukpfms.dev-tattvafoundation.org=pithoragarh
-  tenant.pokhari.ukpfms.dev-tattvafoundation.org=pokhari
-  tenant.ramnagar.ukpfms.dev-tattvafoundation.org=ramnagar
-  tenant.rudraprayag.ukpfms.dev-tattvafoundation.org=rudraprayag
-  tenant.srinagar.ukpfms.dev-tattvafoundation.org=srinagar
-  tenant.swargashram jonk.ukpfms.dev-tattvafoundation.org=swargashram jonk
-  tenant.tilwara.ukpfms.dev-tattvafoundation.org=tilwara
-  tenant.ukhimath.ukpfms.dev-tattvafoundation.org=ukhimath
-  tenant.vikasnagar.ukpfms.dev-tattvafoundation.org=vikasnagar
-  tenant.dugadda.ukpfms.dev-tattvafoundation.org=dugadda
-  tenant.ghansali.ukpfms.dev-tattvafoundation.org=ghansali
-  tenant.lalkuan.ukpfms.dev-tattvafoundation.org=lalkuan
-  tenant.mahuakheraganj.ukpfms.dev-tattvafoundation.org=mahuakheraganj
-  tenant.narendranagar.ukpfms.dev-tattvafoundation.org=narendranagar
-  tenant.testing.ukpfms.dev-tattvafoundation.org=testing
-  tenant.barkot.ukpfms.dev-tattvafoundation.org=barkot
-  tenant.chinyalisaur.ukpfms.dev-tattvafoundation.org=chinyalisaur
-  tenant.gangotri.ukpfms.dev-tattvafoundation.org=gangotri
-  tenant.kirtinagar.ukpfms.dev-tattvafoundation.org=kirtinagar
-  tenant.lambgaon.ukpfms.dev-tattvafoundation.org=lambgaon
-  tenant.munikireti.ukpfms.dev-tattvafoundation.org=munikireti
-  tenant.nandprayag.ukpfms.dev-tattvafoundation.org=nandprayag
-  tenant.purola.ukpfms.dev-tattvafoundation.org=purola
-  tenant.tharali.ukpfms.dev-tattvafoundation.org=tharali
-  tenant.gangolihat.ukpfms.dev-tattvafoundation.org=gangolihat
-  tenant.devaprayag.ukpfms.dev-tattvafoundation.org=devaprayag
-  tenant.nanakmatta.ukpfms.dev-tattvafoundation.org=nanakmatta
-  tenant.dharchula.ukpfms.dev-tattvafoundation.org=dharchula
-  tenant.herbertpur.ukpfms.dev-tattvafoundation.org=herbertpur
-  tenant.sitarganj.ukpfms.dev-tattvafoundation.org=sitarganj
-  tenant.sultanpur.ukpfms.dev-tattvafoundation.org=sultanpur
-  tenant.bazpur.ukpfms.dev-tattvafoundation.org=bazpur
-  tenant.dineshpur.ukpfms.dev-tattvafoundation.org=dineshpur
-  tenant.khatima.ukpfms.dev-tattvafoundation.org=khatima
-  tenant.kichha.ukpfms.dev-tattvafoundation.org=kichha
-  tenant.badrinath.ukpfms.dev-tattvafoundation.org=badrinath
-  tenant.tanakpur.ukpfms.dev-tattvafoundation.org=tanakpur
-  tenant.pirankaliyar.ukpfms.dev-tattvafoundation.org=pirankaliyar
-  tenant.kapkot.ukpfms.dev-tattvafoundation.org=kapkot
-  tenant.chammpawat.ukpfms.dev-tattvafoundation.org=chammpawat
-  tenant.chamoli gopeshwar.ukpfms.dev-tattvafoundation.org=chamoli gopeshwar
-  tenant.bhagwanpur.ukpfms.dev-tattvafoundation.org=bhagwanpur
-  tenant.didihat.ukpfms.dev-tattvafoundation.org=didihat
-  tenant.doiwala.ukpfms.dev-tattvafoundation.org=doiwala
-  tenant.gularbhoj.ukpfms.dev-tattvafoundation.org=gularbhoj
-  tenant.jhabrera.ukpfms.dev-tattvafoundation.org=jhabrera
-  tenant.naugaon.ukpfms.dev-tattvafoundation.org=naugaon
-  tenant.tehri.ukpfms.dev-tattvafoundation.org=tehri
-  tenant.pipalkoti.ukpfms.dev-tattvafoundation.org=pipalkoti
+  tenant.uk.nagalandhealthproject.org=uk
+  tenant.dehradun-uk.nagalandhealthproject.org=dehradun
+  tenant.doiwala-uk.nagalandhealthproject.org=doiwala
   location.user.role=Collection Operator
   collection.debitaccounthead.client.impl.class=org.egov.collection.integration.services.DebitAccountHeadDetailsServiceImpl
 
@@ -559,11 +484,10 @@ egov-finance:
   filestore_beanname: microDiskFileStoreService  
 
 
-
 # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 kafka-config:
-  topics: "egov.pgr.validated:1:1,egov.pgr.locationupdated:1:1,egov.pgr.workflowupdated:1:1,egov.pgr.saved:1:1,egov.pgr.indexing:1:1,egov.core.notification.email:1:1,egov.core.notification.sms:1:1,attendance-save-db:1:1,egov.employee:1:1,save-asset-db:1:1,update-asset-db:1:1,save-assetcategory-db:1:1,agreement-save-db:1:1,agreement-update-db:1:1,lams-workflow-start:1:1,lams-workflow-update:1:1,egov-common-holiday:1:1,egov.leaveopeningbalance-create:1:1,egov.leaveopeningbalance-update:1:1,egov-hr-leavetype:1:1,egov.leaveallotment-create:1:1,egov.leaveallotment-update:1:1,egov.designation-create:1:1,egov.designation-update:1:1,egov.position-create:1:1,egov.position-update:1:1,egov.egf.masters.validated.topic:1:1,egov.egf.masters.completed:1:1,egov.wcms.category-create:1:1,property-create-validated:1:1,property-create-tax-calculated:1:1,property-create-user-validated:1:1,property-create-workflow-started:1:1,property-create-workflow-updated:1:1,save-bill-db:1:1,update-bill-db:1:1,save-bill:1:1,update-bill:1:1,save-demand:1:1,update-demand:1:1,egov.collection.receipt-create:1:1,save-taxHeadMaster-db:1:1,update-taxHeadMaster:1:1,save-glCodeMaster-db:1:1,save-glCodeMaster:1:1,update-glCodeMaster-db:1:1,update-glCodeMaster:1:1,save-taxperiod-db:1:1,save-taxperiod:1:1,update-taxperiod-db:1:1,update-taxperiod:1:1,save-businessservicedetail-db:1:1,save-businessservicedetail:1:1,update-businessservicedetail-db:1:1,update-businessservicedetail:1:1,property-update-workflow-approved:1:1,property-update-user-validated:1:1,property-update-workflow-started:1:1,property-titletransfer-create-user-validated:1:1,property-titletransfer-update-user-validated:1:1,property-titletransfer-create-workflow-started:1:1,property-titletransfer-approved:1:1,property-titletransfer-workflow-updated:1:1,property-update-tax-calculated:1:1,property-update-validated:1:1,property-titletransfer-cretae-validated:1:1,property-titletransfer-update-validated:1:1,property-create-tax-generated:1:1,create-legacy-tradelicense-validated:1:1,egov.pgr.servicedefinition-create:1:1,demand-bill-update:1:1,egov.pgr.servicedefinition-update:1:1,egov-common-department-create:1:1,egov-common-department-update:1:1,egov.services.tl-services.create.legacy.tradelicense.validated:1:1,save-service-db:1:1,update-service-db:1:1,update-legacy-tradelicense-validated:1:1,tradelicense-validated:1:1,tradelicense-persisted:1:1,tradelicense-workflow-populated:1:1,demand-bill-update:1:1,egov.wcms.newconnection-create:1:1,egov.wcms.newconnection-update:1:1,update-newconn-workflow:1:1,initiated-newconn-workflow:1:1,works-offlinestatus-create-validated:1:1,works-offlinestatus-update-validated:1:1,works-contractor-create-validated:1:1,works-contractor-update-validated:1:1,works-letterofacceptance-create-validated:1:1,works-letterofacceptance-update-validated:1:1,works-measurementbook-create-update:1:1,works-revision-detailed-estimate-create-update:1:1,works-workorder-createupdate-validated:1:1,lcms-create-summon-validated:1:1,lcms-create-case:1:1,lcms-create-vakalatnama:1:1,lcms-parawisecomment-create:1:1,lcms-parawisecomment-update:1:1,lcms-assign-advocate:1:1,lcms-update-assign-advocate:1:1,lcms-advocate-create:1:1,lcms-advocate-update:1:1,advocate-payment-create:1:1,advocate-payment-update:1:1,lcms-opinion-create:1:1,lcms-opinion-update:1:1,legacy-case-create:1:1,legacy-hearing-create:1:1,legacy-case-voucher-create:1:1,legacy-case-advocate-create:1:1,lcms-hearingdetails-create:1:1,lcms-hearingdetails-update:1:1,lcms-notice-create:1:1,lcms-notice-update:1:1,lcms-register-create:1:1,lcms-register-update:1:1,lcms-evidence-create:1:1,lcms-evidence-update:1:1,lcms-agency-create:1:1,lcms-agency-update:1:1,lcms-personal-details-create:1:1,Lcms-event-create:1:1,lcms-create-summon-indexer:1:1,lcms-legacy-casecreate-indexer:1:1,works-abstract-estimate-createandupdate:1:1,works-detailed-estimate-createandupdate:1:1,works-revision-loa-create-update:1:1,works-sorrate-saveorupdate-validated:1:1,works-estimatetemplate-saveorupdate-validated:1:1,lcms-update-summon-validated:1:1,mdms.create.gitpushprocess:1:1,works-contractoradvance-saveorupdate-validated:1:1,works-qualitytesting-createandupdate:1:1,works-abstract-estimate-backupdate:1:1,works-detailedestimate-backupdate:1:1,works-abstract-estimate-backupdate-oncreate-detailedestimate:1:1,works-abstract-estimate-backupdate-oncancel-detailedestimate:1:1,works-detailedestimate-backupdate-oncreate-loa:1:1,works-detailedestimate-backupdate-oncancel-loa:1:1,swm-vehicleschedule-save-topic:1:1,works-projectcode-create:1:1,works-projectcode-update:1:1,works-masters-remarks-createandupdate:1:1,works-milestonetemplate-saveorupdate-validated:1:1,works-contractorbill-create-update:1:1,works-measurementbook-backupdate-for-billstatus:1:1,works-notice-createupdate-validated:1:1,works-milestone-saveorupdate-validated:1:1,works-trackmilestone-saveorupdate-validated:1:1,swm-shift-save-topic:1:1,swm-shift-update-topic:1:1,swm-shift-indexer-topic:1:1,works-letterofacceptance-backupdate-oncreate-workorder:1:1,works-letterofacceptance-backupdate-oncancel-workorder:1:1,works-loa-backupdate-oncreate-milestone:1:1,works-loa-backupdate-oncancel-milestone:1:1,works-loa-backupdate-oncreate-contractoradvance:1:1,works-loa-backupdate-oncancel-contractoradvance:1:1,works-loa-backupdate-onupdate-withallofflinestatusandworkorder:1:1,works-workorder-backupdate-oncreate-milestone:1:1,works-workorder-backupdate-oncancel-contractoradvance:1:1,works-loa-backupdate-onupdate-offlinestatus:1:1,works-workorder-backupdate-onupdate-offlinestatus:1:1,works-loa-backupdate-onupdate-withallofflinestatus:1:1,works-workorder-backupdate-onupdate-withallofflinestatus:1:1,works-loa-backupdate-oncreate-bill:1:1,works-loa-backupdate-oncancel-bill:1:1,works-loa-backupdate-oncreatemb:1:1,works-loa-backupdate-oncancelmb:1:1,works-loa-backupdate-oncreatembandnobill:1:1,works-loa-backupdate-oncreatembandbill:1:1,works-workorder-backupdate-oncreate-bill:1:1,works-workorder-backupdate-oncancel-bill:1:1,works-workorder-backupdate-oncreatembandnobill:1:1,works-workorder-backupdate-oncreatembandbill:1:1,egov.error:1:1,save-pt-property:1:1,update-pt-property:1:1,save-pt-billingslab:1:1,update-pt-billingslab:1:1,save-pg-txns:1:1,update-pg-txns:1:1,save-pg-txns-dump:1:1,update-pg-txns-dump:1:1,save-pt-drafts:1:1,update-pt-drafts:1:1,egov.collectionmasters.bankaccountservicemapping-create:1:1,bankaccountservicemapping-create:1:1,update-pt-property-index:1:1"
+  topics: "egov.pgr.validated:1:1,egov.pgr.locationupdated:1:1,egov.pgr.workflowupdated:1:1,egov.pgr.saved:1:1,egov.pgr.indexing:1:1,egov.core.notification.email:1:1,egov.core.notification.sms:1:1,attendance-save-db:1:1,egov.employee:1:1,save-asset-db:1:1,update-asset-db:1:1,save-assetcategory-db:1:1,agreement-save-db:1:1,agreement-update-db:1:1,lams-workflow-start:1:1,lams-workflow-update:1:1,egov-common-holiday:1:1,egov.leaveopeningbalance-create:1:1,egov.leaveopeningbalance-update:1:1,egov-hr-leavetype:1:1,egov.leaveallotment-create:1:1,egov.leaveallotment-update:1:1,egov.designation-create:1:1,egov.designation-update:1:1,egov.position-create:1:1,egov.position-update:1:1,egov.egf.masters.validated.topic:1:1,egov.egf.masters.completed:1:1,egov.wcms.category-create:1:1,property-create-validated:1:1,property-create-tax-calculated:1:1,property-create-user-validated:1:1,property-create-workflow-started:1:1,property-create-workflow-updated:1:1,save-bill-db:1:1,update-bill-db:1:1,save-bill:1:1,update-bill:1:1,save-demand:1:1,update-demand:1:1,egov.collection.receipt-create:1:1,save-taxHeadMaster-db:1:1,update-taxHeadMaster:1:1,save-glCodeMaster-db:1:1,save-glCodeMaster:1:1,update-glCodeMaster-db:1:1,update-glCodeMaster:1:1,save-taxperiod-db:1:1,save-taxperiod:1:1,update-taxperiod-db:1:1,update-taxperiod:1:1,save-businessservicedetail-db:1:1,save-businessservicedetail:1:1,update-businessservicedetail-db:1:1,update-businessservicedetail:1:1,property-update-workflow-approved:1:1,property-update-user-validated:1:1,property-update-workflow-started:1:1,property-titletransfer-create-user-validated:1:1,property-titletransfer-update-user-validated:1:1,property-titletransfer-create-workflow-started:1:1,property-titletransfer-approved:1:1,property-titletransfer-workflow-updated:1:1,property-update-tax-calculated:1:1,property-update-validated:1:1,property-titletransfer-cretae-validated:1:1,property-titletransfer-update-validated:1:1,property-create-tax-generated:1:1,create-legacy-tradelicense-validated:1:1,egov.pgr.servicedefinition-create:1:1,demand-bill-update:1:1,egov.pgr.servicedefinition-update:1:1,egov-common-department-create:1:1,egov-common-department-update:1:1,egov.services.tl-services.create.legacy.tradelicense.validated:1:1,save-service-db:1:1,update-service-db:1:1,update-legacy-tradelicense-validated:1:1,tradelicense-validated:1:1,tradelicense-persisted:1:1,tradelicense-workflow-populated:1:1,demand-bill-update:1:1,egov.wcms.newconnection-create:1:1,egov.wcms.newconnection-update:1:1,update-newconn-workflow:1:1,initiated-newconn-workflow:1:1,works-offlinestatus-create-validated:1:1,works-offlinestatus-update-validated:1:1,works-contractor-create-validated:1:1,works-contractor-update-validated:1:1,works-letterofacceptance-create-validated:1:1,works-letterofacceptance-update-validated:1:1,works-measurementbook-create-update:1:1,works-revision-detailed-estimate-create-update:1:1,works-workorder-createupdate-validated:1:1,lcms-create-summon-validated:1:1,lcms-create-case:1:1,lcms-create-vakalatnama:1:1,lcms-parawisecomment-create:1:1,lcms-parawisecomment-update:1:1,lcms-assign-advocate:1:1,lcms-update-assign-advocate:1:1,lcms-advocate-create:1:1,lcms-advocate-update:1:1,advocate-payment-create:1:1,advocate-payment-update:1:1,lcms-opinion-create:1:1,lcms-opinion-update:1:1,legacy-case-create:1:1,legacy-hearing-create:1:1,legacy-case-voucher-create:1:1,legacy-case-advocate-create:1:1,lcms-hearingdetails-create:1:1,lcms-hearingdetails-update:1:1,lcms-notice-create:1:1,lcms-notice-update:1:1,lcms-register-create:1:1,lcms-register-update:1:1,lcms-evidence-create:1:1,lcms-evidence-update:1:1,lcms-agency-create:1:1,lcms-agency-update:1:1,lcms-personal-details-create:1:1,Lcms-event-create:1:1,lcms-create-summon-indexer:1:1,lcms-legacy-casecreate-indexer:1:1,works-abstract-estimate-createandupdate:1:1,works-detailed-estimate-createandupdate:1:1,works-revision-loa-create-update:1:1,works-sorrate-saveorupdate-validated:1:1,works-estimatetemplate-saveorupdate-validated:1:1,lcms-update-summon-validated:1:1,mdms.create.gitpushprocess:1:1,works-contractoradvance-saveorupdate-validated:1:1,works-qualitytesting-createandupdate:1:1,works-abstract-estimate-backupdate:1:1,works-detailedestimate-backupdate:1:1,works-abstract-estimate-backupdate-oncreate-detailedestimate:1:1,works-abstract-estimate-backupdate-oncancel-detailedestimate:1:1,works-detailedestimate-backupdate-oncreate-loa:1:1,works-detailedestimate-backupdate-oncancel-loa:1:1,swm-vehicleschedule-save-topic:1:1,works-projectcode-create:1:1,works-projectcode-update:1:1,works-masters-remarks-createandupdate:1:1,works-milestonetemplate-saveorupdate-validated:1:1,works-contractorbill-create-update:1:1,works-measurementbook-backupdate-for-billstatus:1:1,works-notice-createupdate-validated:1:1,works-milestone-saveorupdate-validated:1:1,works-trackmilestone-saveorupdate-validated:1:1,swm-shift-save-topic:1:1,swm-shift-update-topic:1:1,swm-shift-indexer-topic:1:1,works-letterofacceptance-backupdate-oncreate-workorder:1:1,works-letterofacceptance-backupdate-oncancel-workorder:1:1,works-loa-backupdate-oncreate-milestone:1:1,works-loa-backupdate-oncancel-milestone:1:1,works-loa-backupdate-oncreate-contractoradvance:1:1,works-loa-backupdate-oncancel-contractoradvance:1:1,works-loa-backupdate-onupdate-withallofflinestatusandworkorder:1:1,works-workorder-backupdate-oncreate-milestone:1:1,works-workorder-backupdate-oncancel-contractoradvance:1:1,works-loa-backupdate-onupdate-offlinestatus:1:1,works-workorder-backupdate-onupdate-offlinestatus:1:1,works-loa-backupdate-onupdate-withallofflinestatus:1:1,works-workorder-backupdate-onupdate-withallofflinestatus:1:1,works-loa-backupdate-oncreate-bill:1:1,works-loa-backupdate-oncancel-bill:1:1,works-loa-backupdate-oncreatemb:1:1,works-loa-backupdate-oncancelmb:1:1,works-loa-backupdate-oncreatembandnobill:1:1,works-loa-backupdate-oncreatembandbill:1:1,works-workorder-backupdate-oncreate-bill:1:1,works-workorder-backupdate-oncancel-bill:1:1,works-workorder-backupdate-oncreatembandnobill:1:1,works-workorder-backupdate-oncreatembandbill:1:1,egov.error:1:1,save-pt-property:1:1,update-pt-property:1:1,save-pt-billingslab:1:1,update-pt-billingslab:1:1,save-pg-txns:1:1,update-pg-txns:1:1,save-pg-txns-dump:1:1,update-pg-txns-dump:1:1,save-pt-drafts:1:1,update-pt-drafts:1:1,egov.collectionmasters.bankaccountservicemapping-create:1:1,bankaccountservicemapping-create:1:1,update-pt-property-index:1:1,save-ptr-application:1:1,update-ptr-application:1:1"
   zookeeper-connect: "zookeeper-v2.zookeeper-cluster:2181"
   kafka-brokers: "kafka-v2.kafka-cluster:9092"
 
@@ -664,11 +588,11 @@ kafka-v2:
   persistence:
     enabled: true
     aws:
-      - volumeId: "vol-0b7361107ecbf0de0" ## REPLACE: add volume id
+      - volumeId: "vol-05a7b659e43811974" ## REPLACE: add volume id
         zone: ap-south-1b     ## REPLACE: add respective zone. 
-      - volumeId: "vol-0a6dce0d583eac59f" ## REPLACE: add volume id
+      - volumeId: "vol-08b1a95b7091669c3" ## REPLACE: add volume id
         zone: ap-south-1b ## REPLACE: add zone
-      - volumeId: "vol-05e30b45194c3c0bf"  ## REPLACE: add volume id
+      - volumeId: "vol-06f58ede21e5600e7"  ## REPLACE: add volume id
         zone: ap-south-1b ## REPLACE: add zone
   zookeeperHosts: "zookeeper-v2.zookeeper-cluster:2181/kafka-v2"
 
@@ -699,11 +623,11 @@ zookeeper-v2:
   persistence:
     enabled: true
     aws:
-      - volumeId: "vol-00cc934829c8d6147" ## REPLACE: add volume id
+      - volumeId: "vol-0c2a43ded88bc6aa7" ## REPLACE: add volume id
         zone: ap-south-1b ## REPLACE: add zone
-      - volumeId: "vol-06de518a436cacf9c" ## REPLACE: add volume id
+      - volumeId: "vol-0b6a7f41e7fe3eeb3" ## REPLACE: add volume id
         zone: ap-south-1b ## REPLACE: add zone
-      - volumeId: "vol-0154d644331389540" ## REPLACE: add volume id
+      - volumeId: "vol-05dd9345a77c52990" ## REPLACE: add volume id
         zone: ap-south-1b ## REPLACE: add zone
 
   ## Zookeeper JVM Heap Option
@@ -724,11 +648,11 @@ elasticsearch-data-v1:
   persistence:
     enabled: true
     aws:
-      - volumeId: "vol-01d13f3099a4c5802" ## REPLACE: add volume id
+      - volumeId: "vol-0feb1cf9d9c7f56b6" ## REPLACE: add volume id
         zone: ap-south-1b ## REPLACE: add zone
-      - volumeId: "vol-08840854e704e18d8" ## REPLACE: add volume id
+      - volumeId: "vol-069c943646724a522" ## REPLACE: add volume id
         zone: ap-south-1b ## REPLACE: add zone
-      - volumeId: "vol-081a609afe6e32595" ## REPLACE: add volume id
+      - volumeId: "vol-097435024da216f1b" ## REPLACE: add volume id
         zone: ap-south-1b ## REPLACE: add zone
 
   esJavaOpts: "-Xmx1g -Xms1g"
@@ -749,11 +673,11 @@ elasticsearch-master-v1:
   persistence:
     enabled: true
     aws:
-      - volumeId: "vol-0ef54aed753e4129e" ## REPLACE: add volume id
+      - volumeId: "vol-060df653ef76cd822" ## REPLACE: add volume id
         zone: ap-south-1b ##REPLACE: add zone
-      - volumeId: "vol-077166cb49276c410" ## REPLACE: add volume id
+      - volumeId: "vol-0474438932b12c011" ## REPLACE: add volume id
         zone: ap-south-1b ##REPLACE: add zone
-      - volumeId: "vol-02896cf62a45f98f9" ## REPLACE: add volume id
+      - volumeId: "vol-0bf604887ee05c0f8" ## REPLACE: add volume id
         zone: ap-south-1b ## REPLACE: add zone
  
   esJavaOpts: "-Xmx448m -Xms448m"
