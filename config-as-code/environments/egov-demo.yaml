@@ -185,18 +185,18 @@ egov-idgen:
   autocreate-new-seq: "true"
 
 egov-notification-sms:
-  sms-provider-url: "sms provider url" ## Add sms provider url
+  sms-provider-url: "http://smsp.myoperator.co/" ## Add sms provider url
   sms.provider.class: "Generic"
   sms.provider.contentType:  "application/x-www-form-urlencoded"
   sms-config-map: "{'User':'$username', 'passwd': '$password', 'sid':'$senderid', 'mobilenumber':'$mobileno', 'message':'$message', 'mtype':'N', 'DR':'N', 'smsservicetype':'singlemsg'}"
   sms-gateway-to-use: "sms provider name" ## Add sms provider name
-  sms-sender: "sms sender" ## Add sms sender
+  sms-sender: "KUTKIT" ## Add sms sender
   sms-sender-requesttype: "GET"
   sms-custom-config: "true"
   sms-extra-req-params: "mtype=N&DR=Y"
   sms-sender-req-param-name: "sid"
-  sms-sender-username-req-param-name: "User"
-  sms-sender-password-req-param-name: "passwd"
+  sms-sender-username-req-param-name: "tattva"
+  sms-sender-password-req-param-name: "admin123"
   sms-destination-mobile-req-param-name: "mobilenumber"
   sms-message-req-param-name: "message"
   sms-error-codes: "401,403,404,405,406,407,408,409,410,411,412,413,414"
@@ -296,7 +296,7 @@ egov-persister:
   replicas: 1
   images:
     - egovio/egov-persister
-  persist-yml-path: "file:///work-dir/configs/egov-persister/pgr-services-persister.yml,file:///work-dir/configs/egov-persister/pt-mutation-calculator-persister.yml,file:///work-dir/configs/egov-persister/apportion-persister.yml,file:///work-dir/configs/egov-persister/billing-services-persist.yml,file:///work-dir/configs/egov-persister/egf-bill.yaml,file:///work-dir/configs/egov-persister/egov-user-event-persister.yml,file:///work-dir/configs/egov-persister/egov-workflow-v2-persister.yml,file:///work-dir/configs/egov-persister/firenoc_persiter.yaml,file:///work-dir/configs/egov-persister/hrms-employee-persister.yml,file:///work-dir/configs/egov-persister/pdf-generator.yml,file:///work-dir/configs/egov-persister/pg-service-persister.yml,file:///work-dir/configs/egov-persister/pgr.v3.yml,file:///work-dir/configs/egov-persister/property-services.yml,file:///work-dir/configs/egov-persister/pt-calculator-v2-persister.yml,file:///work-dir/configs/egov-persister/pt-drafts.yml,file:///work-dir/configs/egov-persister/pt-persist.yml,file:///work-dir/configs/egov-persister/tl-billing-slab-persister.yml,file:///work-dir/configs/egov-persister/tl-calculation-persister.yml,file:///work-dir/configs/egov-persister/uploader-persister.yml,file:///work-dir/configs/egov-persister/collection-migration-persister.yml,file:///work-dir/configs/egov-persister/property-services-registry.yml,file:///work-dir/configs/egov-persister/tradelicense.yml,file:///work-dir/configs/egov-persister/sewerage-persist.yml,file:///work-dir/configs/egov-persister/water-persist.yml,file:///work-dir/configs/egov-persister/water-meter.yml,file:///work-dir/configs/egov-persister/bpa-persister.yml,file:///work-dir/configs/egov-persister/assessment-persister.yml,file:///work-dir/configs/egov-persister/chatbot.yml,file:///work-dir/configs/egov-persister/pet-persister.yml"
+  persist-yml-path: "file:///work-dir/configs/egov-persister/pgr-services-persister.yml,file:///work-dir/configs/egov-persister/pt-mutation-calculator-persister.yml,file:///work-dir/configs/egov-persister/apportion-persister.yml,file:///work-dir/configs/egov-persister/billing-services-persist.yml,file:///work-dir/configs/egov-persister/egf-bill.yaml,file:///work-dir/configs/egov-persister/egov-user-event-persister.yml,file:///work-dir/configs/egov-persister/egov-workflow-v2-persister.yml,file:///work-dir/configs/egov-persister/firenoc_persiter.yaml,file:///work-dir/configs/egov-persister/hrms-employee-persister.yml,file:///work-dir/configs/egov-persister/pdf-generator.yml,file:///work-dir/configs/egov-persister/pg-service-persister.yml,file:///work-dir/configs/egov-persister/pgr.v3.yml,file:///work-dir/configs/egov-persister/property-services.yml,file:///work-dir/configs/egov-persister/pt-calculator-v2-persister.yml,file:///work-dir/configs/egov-persister/pt-drafts.yml,file:///work-dir/configs/egov-persister/pt-persist.yml,file:///work-dir/configs/egov-persister/tl-billing-slab-persister.yml,file:///work-dir/configs/egov-persister/tl-calculation-persister.yml,file:///work-dir/configs/egov-persister/uploader-persister.yml,file:///work-dir/configs/egov-persister/collection-migration-persister.yml,file:///work-dir/configs/egov-persister/property-services-registry.yml,file:///work-dir/configs/egov-persister/tradelicense.yml,file:///work-dir/configs/egov-persister/sewerage-persist.yml,file:///work-dir/configs/egov-persister/water-persist.yml,file:///work-dir/configs/egov-persister/water-meter.yml,file:///work-dir/configs/egov-persister/bpa-persister.yml,file:///work-dir/configs/egov-persister/assessment-persister.yml,file:///work-dir/configs/egov-persister/chatbot.yml,file:///work-dir/configs/egov-persister/ptr-persister.yml"
   initContainers:
     gitSync:
       repo: "git@github.com:tattvafoundationrepo/configs"      ##### Change repo url with Your fork Repo url
@@ -427,6 +427,23 @@ collection-receipt-voucher-consumer:
 finance-collections-voucher-consumer:
   erp-env-name: "uk"
   erp-domain-name: "uk.nagalandhealthproject.org"
+
+pgadmin:
+  dbUrl: "ukpfms-db.cvgnu83fnwgi.ap-south-1.rds.amazonaws.com"
+  environment: "UKPFMS"
+  maintenance-db-name: "ukpfmsdb"
+  db-admin-username: "ukpfms"
+  db-read-username: "ukpfms"
+  max-query-history: "50"
+  max-login-attempts: "5"
+  enable-save-password: "False"
+  persistence:
+    enabled: true
+    dataDirSize: "1Gi"
+    aws:
+      volumeId: "vol-04b706ade998bc791"
+      zone: ap-south-1a
+
 
 
 user-otp:

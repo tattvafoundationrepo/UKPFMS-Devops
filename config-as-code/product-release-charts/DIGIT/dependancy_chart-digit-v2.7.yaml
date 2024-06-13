@@ -29,7 +29,7 @@ modules:
         - egovio/egov-mdms-service:v1.3.2-72f8a8f87b-12
         - egovio/egov-notification-mail:v1.1.2-72f8a8f87b-12
         - egovio/egov-notification-sms:v1.1.3-48a03ad7bb-10
-        - egovio/egov-otp:v1.2.2-72f8a8f87b-12
+        - egovio/egov-notification-sms:v1.1.3-48a03ad7bb-10
         - egovio/egov-persister:v1.1.4-72f8a8f87b-6
         - egovio/egov-pg-service:v1.2.3-c856353983-16
         - egovio/egov-searcher:v1.1.5-72f8a8f87b-16
@@ -103,9 +103,8 @@ modules:
           - egovio/citizen:v1.8.0-b078fa041d-97 # Dependency
           - egovio/employee:v1.8.0-2ac8314b2f-116 # Dependency
           - egovio/egov-hrms:v1.2.5-1715164454-6 # Dependency
-          - egovio/egov-apportion-service:v1.1.5-72f8a8f87b-5
-          - egovio/egf-instrument:v1.1.4-72f8a8f87b-4
-          - egovio/egf-master:v1.1.3-72f8a8f87b-15
-          - egovio/billing-service:v1.3.4-72f8a8f87b-39
-          - egovio/collection-services:v1.1.6-c856353983-29
-          
+          - egovio/egov-apportion-service:v1.1.5-72f8a8f87b-5 # Dependency
+          - egovio/egf-instrument:v1.1.4-72f8a8f87b-4 # Dependency
+          - egovio/egf-master:v1.1.3-72f8a8f87b-15 # Dependency
+          - egovio/billing-service:v1.3.4-72f8a8f87b-39 # Dependency
+          - egovio/collection-services:v1.1.6-c856353983-29 # Dependency
