@@ -426,7 +426,7 @@ collection-receipt-voucher-consumer:
 
 finance-collections-voucher-consumer:
   erp-env-name: "uk"
-  erp-domain-name: "uk.nagalandhealthproject.org"
+  erp-domain-name: "nagalandhealthproject.org"
 
 pgadmin:
   dbUrl: "ukpfms-db.cvgnu83fnwgi.ap-south-1.rds.amazonaws.com"
