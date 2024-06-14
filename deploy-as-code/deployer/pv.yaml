@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pgadmin-data
+  labels:
+    app: pgadmin
+    failure-domain.beta.kubernetes.io/zone: ap-south-1a
+    topology.kubernetes.io/zone: ap-south-1a
+spec:
+ capacity:
+    storage: "2Gi"
+ accessModes:
+    - ReadWriteOnce
+ persistentVolumeReclaimPolicy: Retain
+ claimRef:
+    namespace: playground
+    name: pgadmin-data
+ awsElasticBlockStore:
+    volumeID: vol-04b706ade998bc791
+    fsType: ext4
