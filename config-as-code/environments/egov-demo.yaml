@@ -1,5 +1,5 @@
 global:
-   domain: uk.nagalandhealthproject.org ## Add your Domain Name "Eg: site.mydomain.com" Do not use the dummy domain
+   domain: msewa.nagalandhealthproject.org ## Add your Domain Name "Eg: site.mydomain.com" Do not use the dummy domain
    setup: fullsetup
 
 cluster-configs:
@@ -17,8 +17,8 @@ cluster-configs:
                 db-name: ukpfmsdb ## Add db-name
                 db-url: jdbc:postgresql://ukpfms-db.cvgnu83fnwgi.ap-south-1.rds.amazonaws.com:5432/ukpfmsdb ## example: jdbc:postgresql://egov-demo.postgres.database.azure.com:5432/egov_demo
                 erp-db-url: jdbc:postgresql://ukpfms-db.cvgnu83fnwgi.ap-south-1.rds.amazonaws.com:5432/finance
-                domain: uk.nagalandhealthproject.org ## Add your Domain Name    
-                egov-services-fqdn-name: https://uk.nagalandhealthproject.org/ ## Add your Domain Name
+                domain: msewa.nagalandhealthproject.org.nagalandhealthproject.org ## Add your Domain Name    
+                egov-services-fqdn-name: https://msewa.nagalandhealthproject.org/ ## Add your Domain Name
                 
                 egov-state-level-tenant-id: "uk" 
                 s3-assets-bucket: "(pg-egov-assets|egov-playground-assets)"
@@ -371,7 +371,7 @@ egf-master:
   heap: "-Xmx256m -Xms256m"
 # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 egov-custom-consumer:
-  erp-host: "https://mohali-qa.egovernments.org/"
+  erp-host: "https://uk.nagalandhealthproject.org"
 
 egov-apportion-service:
   memory_limits: 512Mi
@@ -384,6 +384,22 @@ redoc:
     - egovio/redoc:v1.0.5
   service_type: LoadBalancer
 # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+telemetry:
+  replicas: 1
+  images:
+    - egovio/telemetry
+
+egov-telemetry-kafka-streams:
+replicas: 1
+images:
+  - egovio/egov-telemetry-kafka-streams
+
+egov-telemetry-batch-process:
+  replicas: 1
+  date: ""
+  schedule: "30 19 * * *"   #GMT 07:30PM - IST 01:00 AM every day
+
 
 # gateway >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
@@ -399,7 +415,7 @@ nginx-ingress:
   ssl-ecdh-curve: "X25519:prime256v1:secp521r1:secp384r1"
 
 cert-manager:
-  email: "devops@egovernments.org"     ### Add email-id which used by cert-manager for certificates validation.
+  email: "support@tattvafoundation.org"     ### Add email-id which used by cert-manager for certificates validation.
   
   
 zuul:
@@ -456,31 +472,30 @@ tl-services:
   tl-license-num-format: "MP-LEP-[SEQ_EG_PT_LN]"
   tl-userevents-pay-link: "citizen/otpLogin?mobileNo=$mobile&redirectTo=egov-common/pay?consumerCode=$applicationNo&tenantId=$tenantId"
   tl-payment-topic-name: "egov.collection.payment-create"
-  host-link: "https://uk.nagalandhealthproject.org/citizen/"
-  pdf-link: "https://uk.nagalandhealthproject.org/egov-pdf/download/epass?tenantId={TENANTID}&uuid={UUID}"
+  host-link: "https://msewa.nagalandhealthproject.org/citizen/"
+  pdf-link: "https://msewa.nagalandhealthproject.org/egov-pdf/download/epass?tenantId={TENANTID}&uuid={UUID}"
   tl-search-default-limit: "100"
 
 egov-workflow-v2:
   logging-level: "DEBUG"
   java-args: -Dspring.profiles.active=monitoring
   workflow-statelevel: "true"
-  host-link: "https://uk.nagalandhealthproject.org/citizen/"
+  host-link: "https://msewa.nagalandhealthproject.org/citizen/"
   pdf-link: "/download/epass?tenantId={TENANTID}&ids={UUID}"
 
 egov-hrms:
   java-args: -Dspring.profiles.active=monitoring
-  employee-applink: "https://uk.nagalandhealthproject.org/employee/user/login"
+  employee-applink: "https://msewa.nagalandhealthproject.org/employee/user/login"
 
 # eGov-finance Tenantsk9s
-financeTenants: |
-  tenant.uk.nagalandhealthproject.org=uk
+financeTenants: 
   tenant.dehradun-uk.nagalandhealthproject.org=dehradun
   tenant.doiwala-uk.nagalandhealthproject.org=doiwala
   location.user.role=Collection Operator
   collection.debitaccounthead.client.impl.class=org.egov.collection.integration.services.DebitAccountHeadDetailsServiceImpl
 
 egov-finance:
-  dev_mode: true
+  dev_mode: false
   filestore_beanname: microDiskFileStoreService  
 
 
